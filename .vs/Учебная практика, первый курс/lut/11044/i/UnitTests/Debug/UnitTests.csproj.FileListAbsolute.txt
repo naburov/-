@@ -1,0 +1,11 @@
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\ru\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\ru\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\ru\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\UnitTests.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\UnitTests.pdb
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\i\UnitTests\Debug\UnitTests.csproj.CoreCompileInputs.cache
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\i\UnitTests\Debug\UnitTests.dll
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\i\UnitTests\Debug\UnitTests.pdb

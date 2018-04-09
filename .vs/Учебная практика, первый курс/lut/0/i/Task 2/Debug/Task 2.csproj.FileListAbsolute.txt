@@ -1,0 +1,6 @@
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\Task 2\bin\Debug\Task 2.exe.config
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\Task 2\bin\Debug\Task 2.exe
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\b\Task 2\bin\Debug\Task 2.pdb
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\i\Task 2\Debug\Task 2.csproj.CoreCompileInputs.cache
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\i\Task 2\Debug\Task 2.exe
+C:\Users\burov\source\repos\Учебная практика, первый курс\.vs\Учебная практика, первый курс\lut\0\i\Task 2\Debug\Task 2.pdb
