@@ -1,0 +1,7 @@
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task4\bin\Debug\Task4.exe.config
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task4\bin\Debug\Task4.exe
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task4\bin\Debug\Task4.pdb
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task4\obj\Debug\Task4.csproj.CoreCompileInputs.cache
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task4\obj\Debug\Task4.exe
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task4\obj\Debug\Task4.pdb
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task4\obj\Debug\Task4.csprojResolveAssemblyReference.cache

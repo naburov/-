@@ -83,7 +83,7 @@ namespace Task_1
                     Dictionary<char, int> letters = countLetters(pass);
                     if (isGoodPassword(letters, k)) { count++; Console.WriteLine(pass); }
                     beg++;
-                } while (i + beg - 1< seq.Length);    //cycle executes, while total of i and beg not equal to the last index in sequence
+                } while (i + beg - 1< seq.Length);    //the cycle executes, while total of i and beg not equal to the last index in sequence
             }
             Console.WriteLine(count);
             Console.ReadKey();

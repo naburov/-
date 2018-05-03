@@ -1,0 +1,6 @@
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task5\bin\Debug\Task5.exe.config
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task5\bin\Debug\Task5.exe
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task5\bin\Debug\Task5.pdb
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task5\obj\Debug\Task5.csproj.CoreCompileInputs.cache
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task5\obj\Debug\Task5.exe
+C:\Users\burov\source\repos\Учебная практика, первый курс\Task5\obj\Debug\Task5.pdb
