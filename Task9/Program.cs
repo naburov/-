@@ -8,6 +8,7 @@ namespace Task9
 {
     class Program
     {
+        //Сортировки
         static void Main(string[] args)
         {
             int[] arr = { 10, 9, 4, 6, 3, 2, 7, 2, 24, 6, 48, 443, 2334 };

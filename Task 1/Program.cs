@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Task_1
 {
     //Protected password
-    public  class Program
+    public class Program
     {
         //This method counts the number of every letter in the sequence
         public static Dictionary<char,int> countLetters(string s)
@@ -34,18 +31,6 @@ namespace Task_1
             return ok;
         }
 
-        public static void Input (string path, out int length, int k, string seq)
-        {
-            FileStream f1 = new FileStream(path, FileMode.Open);
-            StreamReader st = new StreamReader(f1);
-            length = st.Read();st.Read();            
-            k = st.Read();st.ReadLine();
-            seq = st.ReadLine();
-            st.Close();
-            f1.Close();
-
-        }
-
         public static string createPassword(string seq, string mask)
         {
             char[] maskArr = mask.ToCharArray();
@@ -67,13 +52,30 @@ namespace Task_1
             return pass;
         }
 
+        static string Input(out int length, out int k)
+        {
+            //FileStream f = new FileStream("input.txt",FileMode.Open);
+            StreamReader sr = new StreamReader("input.txt");
+            string[] str = sr.ReadToEnd().Replace("\r\n", " ").Split(' ');
+            length = int.Parse(str[0]); k = int.Parse(str[1]);
+            sr.Dispose();
+            return str[2];
+        }
+
+        static void Output(int number)
+        {
+            StreamWriter sw = new StreamWriter("output.txt");
+            sw.WriteLine(number);
+            sw.Dispose();
+        }
+
         static void Main(string[] args)
         {
-            int length, k;
-            string seq;
+            //int length, k;
+            //string seq;
             int count = 0;                                //how many passwords are good
-            length = 4; k = 1; seq = "ayay";              //input data
-
+            //length = 4; k = 1; seq = "ayay";              //input data
+            string seq = Input(out int length, out int k);
             for (int i = 1; i <= seq.Length; i++)         //from 1 to the length of sequence
             {
                 int beg = 0;                              //start index
@@ -85,8 +87,8 @@ namespace Task_1
                     beg++;
                 } while (i + beg - 1< seq.Length);    //the cycle executes, while total of i and beg not equal to the last index in sequence
             }
-            Console.WriteLine(count);
-            Console.ReadKey();
+            Output(count);
+
         }
     }
 }

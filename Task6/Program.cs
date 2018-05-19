@@ -8,6 +8,7 @@ namespace Task6
 {
     class Program
     {
+        //Write bool functions in lexic-graphical order
         static void Main(string[] args)
         {
             for (int i = 0; i < 64; i++)

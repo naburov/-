@@ -10,6 +10,7 @@ namespace Task10
 {
     class Program
     {
+        //Произведение полиномов
         static void Main(string[] args)
         {
             List<Member> first_polynom = Input("input1.txt");
@@ -25,18 +26,18 @@ namespace Task10
 
             result.Sort(new SortByPow());
 
-            Member [] resArr = result.ToArray();
+            Member[] resArr = result.ToArray();
             LinkedList<Member> list = new LinkedList<Member>(resArr);
             for (int i = 0; i < list.Count - 1; i++)
             {
-                if (list.ElementAt(i).Pow == list.ElementAt(i+1).Pow)
+                if (list.ElementAt(i).Pow == list.ElementAt(i + 1).Pow)
                 {
                     list.ElementAt(i).Koef += list.ElementAt(i + 1).Koef;
                     list.Remove(list.ElementAt(i + 1));
                     i--;
                 }
             }
-
+            resArr = list.ToArray();
             Output(resArr);
         }
 
@@ -56,8 +57,8 @@ namespace Task10
                 }
             }
 
-            f1.Dispose();
-            str.Dispose();
+            f1.Close();
+            str.Close();
             return inputData;
         }
 
@@ -65,10 +66,11 @@ namespace Task10
         {
             FileStream f = new FileStream("output.txt", FileMode.Create);
             StreamWriter sw = new StreamWriter(f);
-            foreach (Member m in arr)
-                sw.WriteLine(m);
-            sw.Dispose();
-            f.Dispose();
+            if (arr.Length == 0) sw.Write("0");
+            else foreach (Member m in arr)
+                    sw.WriteLine(m);                
+            sw.Close();
+            f.Close();
         }
 
         static void MultiplyForOne(List<Member> list, ref List<Member> result, Member m)

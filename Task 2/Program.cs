@@ -1,97 +1,62 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.IO;
 
-namespace Task_2
+
+class Program
 {
-    //Suprised judges
-    class Appearense : IComparable
+    static void Main()
     {
-        int sportsmen { get; set; }
-        int exercise { get; set; }
-        public int CompareTo(object obj)
+        Stopwatch timer = new Stopwatch();
+        timer.Start();
+        StreamReader sr = new StreamReader("input.txt");
+        string[] str = sr.ReadLine().Split(' ');
+
+        int N = int.Parse(str[0]);   //How many sportsmen
+        int M = int.Parse(str[1]);   //How many exercises
+        int P = int.Parse(str[2]);   //How many tries
+
+        int[,] arr = new int[N, M];
+
+        int count = 0;
+        for (int i = 0; i < P; i++)
         {
-            Appearense ap = (Appearense)obj;
-            if (ap.exercise > exercise) return 1;
-            if (ap.exercise == exercise) return 0;
-            else return -1;
+            str = sr.ReadLine().Split(' ');
+            arr[int.Parse(str[0]) - 1, int.Parse(str[1]) - 1] = 1;
         }
 
-        public Appearense(int sp, int ex)
-        {
-            this.exercise = ex;
-            this.sportsmen = sp;
-        }
+        timer.Stop();
+        Console.WriteLine(timer.ElapsedTicks);
+        timer.Reset();
 
-        public override string ToString()
-        {
-            return String.Format("Спортсмен: {0}  Упражнение: {1}", sportsmen, exercise);
-        }
+        timer.Start();
+        for (int i = 0; i < N - 1; i++)
+            for (int j = 1; j < M; j++)
+                if (arr[i, j] != 0)
+                {
+                    for (int k = i + 1; k < N; k++)
+                        for (int k2 = 0; k2 <= j - 1; k2++)
+                            count += arr[k, k2];
+                }
 
-        public static bool operator >(Appearense a1, Appearense a2)
-        {
-            if (a1.sportsmen > a2.sportsmen) return true;
-            else return false;
-        }
-        public static bool operator <(Appearense a1, Appearense a2)
-        {
-            if (a1.sportsmen < a2.sportsmen) return true;
-            else return false;
-        }
-    }
+        timer.Stop();
+        Console.WriteLine(timer.ElapsedTicks);
+        timer.Reset();
 
-    public class SortByExersise : IComparer
-    {
-        int IComparer.Compare(object a, object b)
-        {
-            Appearense obj1 = (Appearense)a;
-            Appearense obj2 = (Appearense)b;
-            return (obj1.CompareTo(obj2));
-        }
-    }
+        timer.Start();
+        StreamWriter sw = new StreamWriter("output.txt");
+        sw.WriteLine(count);
 
+        sw.Close();
+        sr.Close();
+        timer.Stop();
 
-    class Program
-    {
-        static Random rnd = new Random();
-        static void Main(string[] args)
-        {
-            StreamReader sr = new StreamReader("input.txt");
-            StreamWriter sw = new StreamWriter("output.txt");
+        Console.WriteLine(timer.ElapsedTicks);
 
-            string[] s = sr.ReadLine().Split();
-            
-            
-
-            int count = 0;
-            Appearense[] arr ={
-                new Appearense(3,2),
-                new Appearense(1,3),
-                new Appearense(3,1),
-                new Appearense(1,2)};
-            
-
-            Console.WriteLine();
-
-            Array.Sort(arr);
-            for(int i = 0; i<arr.Length; i++)
-            {
-                Console.WriteLine(arr[i]);
-            }
-
-
-            for (int i = 0; i < arr.Length - 1; i++)
-                for (int j = i + 1; j < arr.Length; j++)
-                    if (arr[i] < arr[j]) count++;
-
-            Console.WriteLine(count);
-            Console.ReadKey();
-
-
-        }
+        Console.ReadKey();
     }
 }
+
+
+
+

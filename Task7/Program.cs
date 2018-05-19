@@ -10,6 +10,7 @@ namespace Task7
     {
 
         //Not works
+        //Двудольные графы
         static void Main(string[] args)
         {
             //int[,] incMatr = CreateMatrix();
