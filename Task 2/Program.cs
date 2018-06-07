@@ -1,14 +1,19 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 
+/*
+* Общая идея задачи: после подсчета суммы для каждого члена матрицы
+* её запоминают в отдельный массив, после чего при подсчёте последующих сумм
+* считают только сумму последнего столбца и прибавляют уже посчитанное на 
+* предыдущих шагах
+*/
 
 class Program
 {
+
     static void Main()
     {
-        Stopwatch timer = new Stopwatch();
-        timer.Start();
+
         StreamReader sr = new StreamReader("input.txt");
         string[] str = sr.ReadLine().Split(' ');
 
@@ -17,7 +22,8 @@ class Program
         int P = int.Parse(str[2]);   //How many tries
 
         int[,] arr = new int[N, M];
-
+        int[,] sumArr = new int[N, M];
+        sumArr.Initialize();
         int count = 0;
         for (int i = 0; i < P; i++)
         {
@@ -25,35 +31,25 @@ class Program
             arr[int.Parse(str[0]) - 1, int.Parse(str[1]) - 1] = 1;
         }
 
-        timer.Stop();
-        Console.WriteLine(timer.ElapsedTicks);
-        timer.Reset();
-
-        timer.Start();
         for (int i = 0; i < N - 1; i++)
             for (int j = 1; j < M; j++)
+            {
+                int columnSum = 0;
+                for (int k = i + 1; k < N; k++)
+                    columnSum += arr[k, j-1];
+                if (j - 1 > 0)
+                    sumArr[i, j] = sumArr[i, j - 1] + columnSum;
+                else sumArr[i, j] = columnSum;
                 if (arr[i, j] != 0)
-                {
-                    for (int k = i + 1; k < N; k++)
-                        for (int k2 = 0; k2 <= j - 1; k2++)
-                            count += arr[k, k2];
-                }
+                    count += sumArr[i, j];
+            }
 
-        timer.Stop();
-        Console.WriteLine(timer.ElapsedTicks);
-        timer.Reset();
 
-        timer.Start();
         StreamWriter sw = new StreamWriter("output.txt");
         sw.WriteLine(count);
 
         sw.Close();
         sr.Close();
-        timer.Stop();
-
-        Console.WriteLine(timer.ElapsedTicks);
-
-        Console.ReadKey();
     }
 }
 

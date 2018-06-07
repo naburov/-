@@ -8,102 +8,91 @@ namespace Task7
 {
     class Program
     {
+        static Random rnd = new Random();
+        static bool[] visited;
+        static int[,] graph;
+        static int[] colors;
+        static bool conflict;
 
         //Not works
         //Двудольные графы
         static void Main(string[] args)
         {
-            //int[,] incMatr = CreateMatrix();
-            int[,] incMatr = { { 1, 1, 0, 0, 1, 0 },
-                { 1, 0, 0, 1, 0, 0 },
-                { 0, 1, 1, 0, 0, 1 },
-                { 0, 0, 1, 1, 0, 0 },
-                { 0, 0, 0, 0, 1, 1 } };
-            Graph gr = new Graph(incMatr);
+            graph = GenerateMatrix();
+            visited = new bool[graph.GetLength(0)];
+            colors = new int[graph.GetLength(0)];
+            visited.Initialize();
+            colors.Initialize();
+            PrintMatr();
 
-            bool ok = true;
+            bool conflict = false;
+            colors[0] = 1;
+            for (int i = 0; i < graph.GetLength(1); i++)
+                if (!visited[i]) DFS(i);
 
-            gr[0] = 0;
-
-            for (int i = 1; i<gr.VertexCount && ok; i++)
-            {
-                int[] connectedVertexes = FindConnectedVertexes(gr, i);
-                int color = CheckColor(connectedVertexes);
-                if (color != 2) gr[i] = color;
-                else ok = false;
-            }
-
-            if (ok) Console.WriteLine("Граф двудольный");
+            if (!conflict) Console.WriteLine("Граф двудольный");
             else Console.WriteLine("Граф не двудольный");
 
-            Console.ReadKey();
         }
 
-        public static int [] FindConnectedVertexes(Graph gr, int vNum)
+        public static void DFS (int ver)                    //Начальная вершина
         {
-            int[,] arr = gr.incMatr;
-            List<int> vertexes = new List<int>();
-
-            for (int i = 0; i<arr.GetLength(1); i++)                      //For every edge of graph
-            {
-                if (arr[vNum,i] == 1)                                     //if the edge was found 
-                    for (int j = 0; j < gr.VertexCount; j++)              //For every vertex
-                        if (arr[j, i] == 1 && j != vNum) vertexes.Add(j); //find connected vertex and add to collection
-            }
-            return vertexes.ToArray();
-        }
-
-        public static int CheckColor(int [] arr)
-        {
-            bool ok1 = false; bool ok2 = false;
-            int color = 0;
-            for (int i = 0; i<arr.Length; i++)
-            {
-                if (arr[i] == 0) ok1 = true;
-                if (arr[i] == 1) ok2 = true;
-            }
-            
-            if (!ok1 && ok2) color = 1;
-            if (ok1 && ok2) color = 2;
-            return color;
-                
-        }
-
-        public static int [,] CreateMatrix()
-        {
-            Console.WriteLine("Введите количество строк матрицы");
-            int rows = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Введите количество столбцов матрицы");
-            int columns = Convert.ToInt32(Console.ReadLine());
-
-            int[,] matrix = new int[rows,columns];
-
-            for (int i = 0; i<rows; i++) 
-                for (int j = 0; j<columns; j++)
+            int color = colors[ver];
+            visited[ver] = true;
+            for (int i = 0; i < visited.Length; i++)
+                if (!visited[i] && edgeExist(ver, i))
                 {
-                    Console.WriteLine("Введите элемент матрицы с номером {0}, {1}", i, j);
-                    matrix[i, j] = Convert.ToInt16(Console.ReadLine());
+                    if (color == colors[i])
+                    {
+                        conflict = true;
+                        return;
+                    }
+                    else if (color == 1) colors[i] = 0;
+                    else colors[i] = 1;
+                    DFS(i);
                 }
-            return matrix;
         }
 
-    }
-
-    class Graph
-    {
-        public int[,] incMatr { get; set; } 
-        int[] vertexColors;
-        public int VertexCount => vertexColors.Length;
-        public int this[int i] { get => vertexColors[i]; set => vertexColors[i] = value; }
-
-        public Graph(int [,] arr)
+        static int [,] GenerateMatrix()
         {
-            incMatr = arr;
-            vertexColors = new int[incMatr.GetLength(0)];
-            for (int i = 0; i < VertexCount; i++)
-                this[i] = 2;                               //Every vertex hasn't god color yet
+            int x = rnd.Next(2, 11);
+            int y = rnd.Next(1, 11);
+
+            int[,] matr = new int[x, y];
+            matr.Initialize();
+
+            for (int i = 0; i < y; i++)
+            {
+                int index1 = rnd.Next(0, x);
+                int index2;
+                do
+                {
+                    index2 = rnd.Next(0, x);
+                } while (index2 == index1);
+
+                matr[index1, i] = 1;
+                matr[index2, i] = 1;
+            }
+
+            return matr;
+
         }
 
+        static void PrintMatr()
+        {
+            for (int i = 0; i < graph.GetLength(0); i++)
+                for (int j = 0; j < graph.GetLength(1); j++)
+                    if (j == graph.GetLength(1) - 1) Console.WriteLine(graph[i, j]);
+                    else Console.Write(graph[i, j] + " ");
+
+        }
+        static bool edgeExist(int ver1, int ver2)
+        {
+            for (int i = 0; i<graph.GetLength(1); i++)
+            {
+                if (graph[ver1, i] == 1 && graph[ver2, i] == 1) return true;
+            }
+            return false;
+        }
     }
 }

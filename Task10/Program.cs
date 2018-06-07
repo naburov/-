@@ -13,27 +13,27 @@ namespace Task10
         //Произведение полиномов
         static void Main(string[] args)
         {
-            List<Member> first_polynom = Input("input1.txt");
-            List<Member> second_polynom = Input("input2.txt");
+            MyArrayList first_polynom = Input("input1.txt");
+            MyArrayList second_polynom = Input("input2.txt");
 
-            List<Member> result = new List<Member>();
+            MyArrayList result = new MyArrayList();
 
-            first_polynom.Sort(new SortByPow());
-            second_polynom.Sort(new SortByPow());
+            first_polynom.Sort();
+            second_polynom.Sort();
 
             foreach (Member m in first_polynom)
                 MultiplyForOne(second_polynom, ref result, m);
 
-            result.Sort(new SortByPow());
+            result.Sort();
 
             Member[] resArr = result.ToArray();
-            LinkedList<Member> list = new LinkedList<Member>(resArr);
+            MyArrayList list = new MyArrayList(resArr);
             for (int i = 0; i < list.Count - 1; i++)
             {
-                if (list.ElementAt(i).Pow == list.ElementAt(i + 1).Pow)
+                if (list[i].Pow == list[i + 1].Pow)
                 {
-                    list.ElementAt(i).Koef += list.ElementAt(i + 1).Koef;
-                    list.Remove(list.ElementAt(i + 1));
+                    list[i].Koef += list[i + 1].Koef;
+                    list.Remove(list[i + 1]);
                     i--;
                 }
             }
@@ -41,9 +41,30 @@ namespace Task10
             Output(resArr);
         }
 
-        static List<Member> Input(string filename)
+        //static MyArrayList Input(string filename)
+        //{
+        //    MyArrayList inputData = new MyArrayList();
+        //    FileStream f1 = new FileStream(filename, FileMode.Open);
+        //    StreamReader str = new StreamReader(f1);
+        //    string s = str.ReadToEnd();
+        //    string[] numbers = s.Split(' ', '\n');
+        //    for (int i = 0; i < numbers.Length / 2; i++)
+        //    {
+        //        if (numbers[2 * i] != "0")
+        //        {
+        //            Member m = new Member(Convert.ToInt32(numbers[2 * i]), Convert.ToInt32(numbers[2 * i + 1]));
+        //            inputData.Add(m);
+        //        }
+        //    }
+
+        //    f1.Close();
+        //    str.Close();
+        //    return inputData;
+        //}
+
+        static MyArrayList Input(string filename)
         {
-            List<Member> inputData = new List<Member>();
+            MyArrayList inputData = new MyArrayList() ;
             FileStream f1 = new FileStream(filename, FileMode.Open);
             StreamReader str = new StreamReader(f1);
             string s = str.ReadToEnd();
@@ -73,7 +94,7 @@ namespace Task10
             f.Close();
         }
 
-        static void MultiplyForOne(List<Member> list, ref List<Member> result, Member m)
+        static void MultiplyForOne(MyArrayList list, ref MyArrayList result, Member m)
         {
             foreach (Member n in list)
                 result.Add(new Member(n.Koef * m.Koef, m.Pow + n.Pow));
@@ -88,6 +109,12 @@ namespace Task10
         {
             Koef = k;
             Pow = p;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Member m = (Member)obj;
+            return (Koef == m.Koef && Pow == m.Pow);
         }
 
         public int CompareTo(object obj)

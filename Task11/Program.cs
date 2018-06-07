@@ -5,27 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Task11
-{
     class Program
     {
         //Шифрование строк
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите число k");
-            int k = InputNumber();
-
-            int[] replaceArr = new int[k];
-            Console.WriteLine("Введите числа перестановки по одному");
-            for (int i = 0; i < k; i++)
-                replaceArr[i] = InputNumber();
+            int k;
+            int[] replaceArr;
+            InputReplace(out k, out replaceArr);
 
             string begString, resultString = "";
-            Console.WriteLine("Введите шифруемую/дешифруемую строку");
-            do
-            {
-                begString = Console.ReadLine();
-                if (begString.Length == 0) Console.WriteLine("Начальная строка не может быть пустой, повторите ввод");
-            } while (begString.Length == 0);
+            begString = InputStringForWork();
 
             if (begString.Length % k != 0)
                 do
@@ -33,6 +23,26 @@ namespace Task11
                     begString += " ";
                 } while (begString.Length % k != 0);
 
+            Console.WriteLine("1 - Зашифровать строку");
+            Console.WriteLine("2 - Дешифровать строку");
+            int comand = InputComand();
+
+            switch (comand)
+            {
+                case 1:
+                    resultString = EncryptString(k, replaceArr, begString, resultString);
+                    break;
+                case 2:
+                    resultString = DecryptString(k, replaceArr, begString, resultString);
+                    break;
+            }
+
+            Console.WriteLine("Результат: {0}", resultString);
+            Console.ReadKey();
+        }
+
+        private static string EncryptString(int k, int[] replaceArr, string begString, string resultString)
+        {
             for (int i = 0; i < begString.Length; i += k)
             {
                 string repBegString = begString.Substring(i, k);
@@ -42,9 +52,45 @@ namespace Task11
                 resultString += repString;
             }
 
-            Console.WriteLine("Результат: {0}", resultString);
-            Console.ReadKey();
+            return resultString;
         }
+
+        private static string DecryptString(int k, int[] replaceArr, string begString, string resultString)
+        {
+            for (int i = 0; i < begString.Length; i += k)
+            {
+                string repBegString = begString.Substring(i, k);
+                char[] repArr = new char[k];
+                for (int j = 0; j < repBegString.Length; j++)
+                    repArr[replaceArr[j] - 1] = repBegString[j];
+                resultString += repArr.ToString();
+            }
+
+            return resultString;
+        }
+
+        private static string InputStringForWork()
+        {
+            string begString;
+            Console.WriteLine("Введите шифруемую/дешифруемую строку строку");
+            do
+            {
+                begString = Console.ReadLine();
+                if (begString.Length == 0) Console.WriteLine("Начальная строка не может быть пустой, повторите ввод");
+            } while (begString.Length == 0);
+            return begString;
+        }
+
+        private static void InputReplace(out int k, out int[] replaceArr)
+        {
+            Console.WriteLine("Введите число k");
+            k = InputNumber();
+            replaceArr = new int[k];
+            Console.WriteLine("Введите числа перестановки по одному");
+            for (int i = 0; i < k; i++)
+                replaceArr[i] = InputNumber();
+        }
+
         static int InputNumber()
         {
             int number = 0; bool ok = false;

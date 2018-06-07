@@ -23,6 +23,7 @@ namespace Task3
                 u = Math.Pow(x, 3) - 1;
             else
                 u = Math.Sqrt(Math.Abs(x - 1));
+
             Console.WriteLine(u);
         }
 
