@@ -88,7 +88,7 @@ namespace Task8
 
         public void Add(object value)
         {
-            Point New = new Point(Count);
+            Point New = new Point((int)value);
             Count++;
             New.Prev = Last;
             New.Next = Beg;
@@ -108,6 +108,17 @@ namespace Task8
         public void Remove(object value)
         {
             bool ok = false; int i = 0;
+            if (this[0].Value.Equals(value))
+            {
+                Point nBeg = this[1];
+                this[i].Next.Prev = this[i].Prev;
+                this[i].Prev.Next = this[i].Next;
+                Beg = nBeg;                
+                Count--;
+                return;
+            }
+            
+
             do
             {
                 i++;
@@ -118,6 +129,7 @@ namespace Task8
             {
                 this[i].Next.Prev = this[i].Prev;
                 this[i].Prev.Next = this[i].Next;
+                Count--;
             }
             else Console.WriteLine("Удаляемого объекта нет в коллекции");
         }

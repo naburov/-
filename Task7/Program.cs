@@ -9,7 +9,6 @@ namespace Task7
     class Program
     {
         static Random rnd = new Random();
-        static bool[] visited;
         static int[,] graph;
         static int[] colors;
         static bool conflict;
@@ -19,41 +18,64 @@ namespace Task7
         static void Main(string[] args)
         {
             graph = GenerateMatrix();
-            visited = new bool[graph.GetLength(0)];
+            //Двудольные графы
+            //graph = new int[,] { { 1, 1, 0, 0, 0, 0 }, { 0, 0, 1, 1, 0, 0 }, { 0, 0, 0, 0, 1, 1 }, { 1, 0, 1, 0, 0, 1 }, { 0, 1, 0, 1, 1, 0 } };
+            //graph = new int[,] { { 1, 1, 0, 0, 0 }, { 0, 0, 1, 0, 0 }, { 0, 0, 0, 1, 1 }, { 1, 0, 0, 0, 1 }, { 0, 1, 0, 1, 0 }, { 0, 0, 1, 0, 0 } };
+
+
+            //Недвудольные графы
+            //graph = new int[,] { { 1, 0, 1 }, { 1, 1, 0 }, { 0, 1, 1 } };
+            //graph = new int[,] { { 1, 0, 0, 1, 1, 0 }, { 1, 1, 0, 0, 0, 1 }, { 0, 1, 1, 0, 1, 0 }, { 0, 0, 1, 1, 0, 1 } };
+            //graph = new int[,] { { 1, 0, 1, 0, 0, 1, 0, 0, 0 }, { 1, 1, 0, 1, 0, 0, 0, 0, 0 }, { 0, 1, 1, 0, 1, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 1, 0, 1, 1 }, { 0, 0, 0, 1, 0, 0, 1, 0, 1 }, { 0, 0, 0, 0, 1, 0, 1, 1, 0 } };
+
+
             colors = new int[graph.GetLength(0)];
-            visited.Initialize();
             colors.Initialize();
             PrintMatr();
 
             bool conflict = false;
-            colors[0] = 1;
-            for (int i = 0; i < graph.GetLength(1); i++)
-                if (!visited[i]) DFS(i);
+            for (int i = 0; i < graph.GetLength(0); i++)
+                if (colors[i] == 0)
+                {
+                    colors[i] = 1;
+                    DFS(i, ref conflict);
+                }
 
+            /*
+            for (int i = 0; i < graph.GetLength(1) && !conflict; i++)
+            {
+                int index1 = -1, index2 = -1;
+
+                for (int k = 0; k < graph.GetLength(0); k++)
+                    if (index1 < 0 && index2 < 0 && graph[k, i] == 1) index1 = k;
+                    else if (index1 >= 0 && graph[k, i] == 1) index2 = k;
+
+                if (colors[index1] == colors[index2]) conflict = true;
+            }
+            */
             if (!conflict) Console.WriteLine("Граф двудольный");
             else Console.WriteLine("Граф не двудольный");
 
+            Console.WriteLine("Нажмите любую клавишу для продолжения");
+            Console.ReadKey();
+
         }
 
-        public static void DFS (int ver)                    //Начальная вершина
+        public static void DFS(int ver, ref bool conflict)                    //Начальная вершина
         {
+            if (conflict) return;
             int color = colors[ver];
-            visited[ver] = true;
-            for (int i = 0; i < visited.Length; i++)
-                if (!visited[i] && edgeExist(ver, i))
-                {
-                    if (color == colors[i])
+            for (int i = 0; i < colors.Length && !conflict; ++i)
+                if (EdgeExist(ver, i))
+                    if (colors[i] == 0)
                     {
-                        conflict = true;
-                        return;
+                        colors[i] = 3 - color;
+                        DFS(i, ref conflict);
                     }
-                    else if (color == 1) colors[i] = 0;
-                    else colors[i] = 1;
-                    DFS(i);
-                }
+                    else if (colors[ver] == colors[i]) conflict = true;
         }
 
-        static int [,] GenerateMatrix()
+        static int[,] GenerateMatrix()
         {
             int x = rnd.Next(2, 11);
             int y = rnd.Next(1, 11);
@@ -86,11 +108,11 @@ namespace Task7
                     else Console.Write(graph[i, j] + " ");
 
         }
-        static bool edgeExist(int ver1, int ver2)
+        static bool EdgeExist(int ver1, int ver2)
         {
-            for (int i = 0; i<graph.GetLength(1); i++)
+            for (int i = 0; i < graph.GetLength(1); i++)
             {
-                if (graph[ver1, i] == 1 && graph[ver2, i] == 1) return true;
+                if (graph[ver1, i] == 1 && graph[ver2, i] == 1 && ver1 != ver2) return true;
             }
             return false;
         }

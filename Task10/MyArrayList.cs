@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Task10
 {
-    class MyArrayList : ICollection<Member>
+    class MyArrayList : IEnumerable
     {
         Point Beg { get; set; }
-        int count, capacity;
+        int count;
 
         public int Count => count;
 
@@ -75,10 +75,6 @@ namespace Task10
             return false;
         }
 
-        public void CopyTo(Member[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerator<Member> GetEnumerator()
         {
@@ -93,31 +89,26 @@ namespace Task10
 
         public bool Remove(Member item)
         {
-            if (Contains(item))
+            Point p = Beg;
+            if (Beg.obj.Equals(item))
             {
-                bool ok = false;
-                for (int i = 0; i < count && !ok; i++)
-                    if (this[i] == item)
-                    {
-                        this[i] = null;
-                        for (int k = i + 1; k < count; k++)
-                            this[k - 1] = this[k];
-                        DisposeLast();
-                        ok = true;
-                    }
+                Beg = p.next;
                 count--;
                 return true;
             }
-            else return false;
+            do
+            {
+                p = p.next;
+            } while (p.next.next!=null && !p.next.obj.Equals(item));
+            if (p.next.obj.Equals(item))
+            {
+                count--;
+                p.next = p.next.next;
+                return true;
+            }
+            return false;
         }
 
-        private void DisposeLast()
-        {
-            Point p = Beg;
-            for (int i = 0; i < count - 1; i++)
-                p = p.next;
-            p.next = null;
-        }
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -140,14 +131,18 @@ namespace Task10
         {
             Member[] arr = new Member[count];
             int k = 0;
-            foreach (Member m in this)
-                arr[k++] = m;
+            Point p = Beg;
+            while (p != null)
+            {
+                arr[k++] = p.obj;
+                p = p.next;
+            }
             return arr;
         }
-        public void Sort()
+        public void Sort(IComparer comparer)
         {
             Member[] arr = ToArray();
-            Array.Sort(arr, new SortByPow());
+            Array.Sort(arr, comparer);
             MyArrayList list = new MyArrayList(arr);
             Beg = list.Beg;
         }

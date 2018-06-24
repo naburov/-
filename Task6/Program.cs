@@ -1,34 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task6
 {
     class Program
     {
-        //Write bool functions in lexic-graphical order
         static void Main(string[] args)
         {
-            for (int i = 0; i < 64; i++)
+            Console.WriteLine("Программа выводит все вектора булвых функций, которые не являются самодвойственными");
+            for (int i = 0; i < 256; i++)
             {
-                char [] vector = new char[8];             //bool's function vector
-                string doubleI = Convert.ToString(i, 2);  
-                int nullNumber = 8 - doubleI.Length;
+                char [] vector = new char[8];             //Вектор булевой функции
+                string doubleI = Convert.ToString(i, 2);  //Перевод в двоичную запись 
+                int nullNumber = 8 - doubleI.Length;      //Количество нулей, которое нужно добавить в начало
 
-                for (int j = 0; j < nullNumber; j++)
+                for (int j = 0; j < nullNumber; j++)      //Добавление нулей
                     vector[j] = '0';
 
-                int index = 0;
-                for (int j = nullNumber; j < vector.Length; j++)
+                int index = 0;                           
+                for (int j = nullNumber; j < 8; j++)      //Заполнение оставшейся части вектора
                     vector[j] = doubleI[index++];
 
 
                 bool ok = false;
                 for (int j = 0; j < 4 && !ok; j++)
                 {
-                    if (vector[j] == vector[7 - j])
+                    if (vector[j] == vector[7 - j])      //Проверка на самодвойственность
                     {
                         ok = true;
                         Console.WriteLine(vector);
@@ -36,6 +32,7 @@ namespace Task6
                 }                
             }
 
+            Console.WriteLine("Для продолжения нажмите любую клавишу");
             Console.ReadKey();
 
         }

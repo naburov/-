@@ -5,17 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Task11
+{ 
     class Program
     {
         //Шифрование строк
         static void Main(string[] args)
-        {
-            int k;
-            int[] replaceArr;
-            InputReplace(out k, out replaceArr);
+         {
+            Console.WriteLine("Программа предназначена для шифрования/дешифрования сообщений, через перестановку символов\n");
 
-            string begString, resultString = "";
-            begString = InputStringForWork();
+            InputReplace(out int k, out int [] replaceArr);
+
+            string begString, resultString = null; 
+            begString = InputString();
 
             if (begString.Length % k != 0)
                 do
@@ -30,46 +31,45 @@ namespace Task11
             switch (comand)
             {
                 case 1:
-                    resultString = EncryptString(k, replaceArr, begString, resultString);
+                    resultString = EncryptString(k, replaceArr, begString);
                     break;
                 case 2:
-                    resultString = DecryptString(k, replaceArr, begString, resultString);
+                    resultString = DecryptString(k, replaceArr, begString);
                     break;
             }
 
             Console.WriteLine("Результат: {0}", resultString);
+            Console.WriteLine("Намите любую клавишу для продолжения");
             Console.ReadKey();
         }
 
-        private static string EncryptString(int k, int[] replaceArr, string begString, string resultString)
+        //Зашифровать строку
+        private static string EncryptString(int k, int[] replaceArr, string begString)
         {
+            string resultString = "";
             for (int i = 0; i < begString.Length; i += k)
             {
-                string repBegString = begString.Substring(i, k);
-                string repString = "";
-                for (int j = 0; j < replaceArr.Length; j++)
-                    repString += repBegString[replaceArr[j] - 1];
-                resultString += repString;
+                string block = begString.Substring(i, k);
+                for (int j = 0; j < k; j++)
+                    resultString += block[replaceArr[j] - 1];
             }
-
             return resultString;
         }
 
-        private static string DecryptString(int k, int[] replaceArr, string begString, string resultString)
+        //Дешифровать строку
+        private static string DecryptString(int k, int[] replaceArr, string begString)
         {
+            char[] result = new char[begString.Length];
             for (int i = 0; i < begString.Length; i += k)
             {
-                string repBegString = begString.Substring(i, k);
-                char[] repArr = new char[k];
-                for (int j = 0; j < repBegString.Length; j++)
-                    repArr[replaceArr[j] - 1] = repBegString[j];
-                resultString += repArr.ToString();
+                string block = begString.Substring(i, k);
+                for (int j = 0; j < block.Length; j++)
+                    result[i + replaceArr[j] - 1] = block[j];
             }
-
-            return resultString;
+            return result.ToString();
         }
 
-        private static string InputStringForWork()
+        private static string InputString()
         {
             string begString;
             Console.WriteLine("Введите шифруемую/дешифруемую строку строку");
@@ -88,7 +88,30 @@ namespace Task11
             replaceArr = new int[k];
             Console.WriteLine("Введите числа перестановки по одному");
             for (int i = 0; i < k; i++)
-                replaceArr[i] = InputNumber();
+                do
+                {
+                    bool ok = true;
+                    int f = 0;
+                    do
+                    {
+                        replaceArr[i] = InputNumber();
+                        if (replaceArr[i] > k) Console.WriteLine("Число перестановок должно находиться в пределах от 1 до {0}", k);
+
+                        //Проверка на повторяющиеся цифры в перестановочном массиве
+                        ok = false;
+                        for (f = 0; f<k;f++)
+                            if (replaceArr[f] == replaceArr[i] && i!=f)
+                            {
+                                Console.WriteLine("Числа перестановки не должны повторяться, повторите ввод");
+                                ok = true;
+                            }
+                    } while (ok);
+                } while (replaceArr[i] > k);
+            Console.Write("Перестановочный массив: ");
+
+            foreach (int a in replaceArr)
+                Console.Write(a + " ");
+            Console.WriteLine();
         }
 
         static int InputNumber()
@@ -105,7 +128,7 @@ namespace Task11
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Число введено неверно");
+                    Console.WriteLine("Должно быть введено целое число, повторите ввод");
                 }
             } while (!ok);
             return number;

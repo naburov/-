@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task5
 {
@@ -10,6 +6,8 @@ namespace Task5
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Программа вычисляет сумму произведений максимальных чисел строк по принципу:\n" +
+                "x1*xn + x2 * xn-2 ... + xn*x1, где xk - наибольший элемент строки");
             int[,] matrix; int N;
             int sum = 0;
             Console.WriteLine("Введите размерноcть матрицы");
@@ -25,14 +23,16 @@ namespace Task5
             for (int i = 0; i < N; i++)
                 for (int j = 0; j < N; j++)
                 {
-                    Console.WriteLine("Введите элемент матрицы с номером {0},{1}", i, j);
+                    Console.WriteLine("Введите элемент матрицы с номером {0},{1}", i+1, j+1);
                     matrix[i, j] = InputNumber();
                 }
 
-            for (int i = 0; i < N; i++)
-                sum += FindMaxInLine(matrix, i);
+            for (int i = 0; i<N; i++)
+            {
+                sum += FindMaxInLine(matrix, i) * FindMaxInLine(matrix, N - 1 - i);
+            }
 
-            Console.WriteLine("Сумма максимальных элементов кажой строки {0}", sum);
+            Console.WriteLine("Итоговая сумма {0}", sum);
             Console.ReadKey();
         }
 
